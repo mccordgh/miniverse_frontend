@@ -6,8 +6,8 @@ app.config( ($locationProvider, $routeProvider) => {
 
     $routeProvider
     .when('/', {
-        templateUrl: 'app/partials/home.html',
-        controller: 'MainCtrl'
+        templateUrl: 'app/partials/dash.html',
+        controller: 'DashCtrl'
     })
 
     .otherwise('/');
