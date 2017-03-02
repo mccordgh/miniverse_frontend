@@ -6,4 +6,3 @@
 *.css.map
 lib/node_modules
 lib/bower_components
-app/values
