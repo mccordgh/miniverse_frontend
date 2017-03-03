@@ -2,16 +2,20 @@
 
 let app = angular.module('Bangazon', ['ngRoute']);
 
-app.config( ($locationProvider, $routeProvider) => {
+app.config(($locationProvider, $routeProvider) => {
 
-    $routeProvider
+  $routeProvider
     .when('/dash', {
-        templateUrl: 'app/partials/dash.html',
-        controller: 'DashCtrl'
+      templateUrl: 'app/partials/dash.html',
+      controller: 'DashCtrl'
+    })
+    .when('/sellproduct', {
+      templateUrl: 'app/partials/sellproduct.html',
+      controller: 'sellProductCtrl'
     })
 
-    .otherwise('/');
+  .otherwise('/');
 
-    $locationProvider.hashPrefix('');
+  $locationProvider.hashPrefix('');
 
 });
