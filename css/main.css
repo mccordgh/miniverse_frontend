@@ -2,3 +2,6 @@ h2 {
     color: grey;
 }
 
+form {
+    max-width: 600px;
+}
