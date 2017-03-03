@@ -4,4 +4,13 @@ h2 {
 
 form {
     max-width: 600px;
+    /*background-color: lightblue;*/
+}
+
+.form-group {
+    margin: 20px;
+}
+
+#wrapper {
+    margin-left: 30px;
 }
