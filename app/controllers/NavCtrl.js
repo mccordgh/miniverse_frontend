@@ -7,8 +7,7 @@ app.controller('NavCtrl', function($scope) {
   ];
 
   $scope.signOut = [
-    { name: "Cart", url: '#/Cart' },
-    { name: "Log Out", url: '#/login' }
-
+    { name: "Log Out", url: '#/login' },
+    { name: "Cart", url: '#/cart' }
   ];
 });
