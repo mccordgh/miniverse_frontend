@@ -4,7 +4,6 @@ app.controller("productListCtrl", function($scope, $routeParams, apiFactory){
 	$scope.category = $routeParams.category;
 	$scope.pk = $routeParams.pk;
 	$scope.products = [];
-	console.log($scope.category, $scope.pk);
 
 	apiFactory.getProducts()
 		.then(function(data){

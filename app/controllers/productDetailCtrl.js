@@ -2,7 +2,6 @@
 
 app.controller('productDetailCtrl', function($scope, $routeParams, apiFactory) {
 	$scope.pk = $routeParams.pk;
-  console.log("pk", $scope.pk);
 
 	apiFactory.getProductDetail($scope.pk)
 		.then(function(data){
