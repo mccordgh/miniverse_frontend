@@ -2,7 +2,11 @@
 
 let app = angular.module('Bangazon', ['ngRoute']);
 
-app.config(($locationProvider, $routeProvider) => {
+app.config(($locationProvider, $routeProvider, $httpProvider) => {
+
+  $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+  $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+  $httpProvider.defaults.withCredentials = true;
 
   $routeProvider
     .when('/dash', {
@@ -17,11 +21,15 @@ app.config(($locationProvider, $routeProvider) => {
       templateUrl: 'app/partials/cart.html',
       controller: 'cartCtrl'
     })
-    .when('/products',{
+    .when('/product_types',{
+      templateUrl: 'app/partials/product_types.html',
+      controller: 'productTypesCtrl'
+    })
+    .when('/product_list/:category/:pk',{
       templateUrl: 'app/partials/product_list.html',
       controller: 'productListCtrl'
     })
-    .when('/product-detail', {
+    .when('/product_detail/:pk', {
       templateUrl: 'app/partials/product_detail.html',
       controller: 'productDetailCtrl'
     })
