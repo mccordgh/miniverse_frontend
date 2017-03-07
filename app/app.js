@@ -17,6 +17,10 @@ app.config(($locationProvider, $routeProvider) => {
       templateUrl: 'app/partials/cart.html',
       controller: 'cartCtrl'
     })
+    .when('/products',{
+      templateUrl: 'app/partials/product_list.html',
+      controller: 'productListCtrl'
+    })
     .when('/product-detail', {
       templateUrl: 'app/partials/product_detail.html',
       controller: 'productDetailCtrl'
