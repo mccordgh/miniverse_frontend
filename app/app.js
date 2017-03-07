@@ -13,8 +13,11 @@ app.config(($locationProvider, $routeProvider) => {
       templateUrl: 'app/partials/sellproduct.html',
       controller: 'sellProductCtrl'
     })
-
-  .otherwise('/');
+    .when('/cart', {
+      templateUrl: 'app/partials/cart.html',
+      controller: 'cartCtrl'
+    })
+    .otherwise('/');
 
   $locationProvider.hashPrefix('');
 
