@@ -1,6 +1,6 @@
 'use strict';
 
-let app = angular.module('Bangazon', ['ngRoute']);
+let app = angular.module('Bangazon', ['ngRoute']).constant('apiUrl', "http://localhost:8000");
 
 app.config(($locationProvider, $routeProvider, $httpProvider) => {
 
@@ -33,10 +33,26 @@ app.config(($locationProvider, $routeProvider, $httpProvider) => {
       templateUrl: 'app/partials/product_detail.html',
       controller: 'productDetailCtrl'
     })
+    .when('/login', {
+      templateUrl: 'app/partials/login.html',
+      controller: 'loginCtrl'
+    })
 
   .otherwise('/');
 
-
   $locationProvider.hashPrefix('');
 
+  angular.module('Bangazon').factory('RootFactory', [
+    "$http",
+    "apiUrl",
+    ($http, apiUrl) => {
+      const httpGet = $http.get(apiUrl);
+
+      return {
+        getApiRoot() {
+          return httpGet.then(res => res.data);
+        }
+      };
+    }
+  ]);
 });
