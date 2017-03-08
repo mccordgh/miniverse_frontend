@@ -21,11 +21,15 @@ app.config(($locationProvider, $routeProvider, $httpProvider) => {
       templateUrl: 'app/partials/cart.html',
       controller: 'cartCtrl'
     })
-    .when('/products', {
+    .when('/product_types',{
+      templateUrl: 'app/partials/product_types.html',
+      controller: 'productTypesCtrl'
+    })
+    .when('/product_list/:category/:pk',{
       templateUrl: 'app/partials/product_list.html',
       controller: 'productListCtrl'
     })
-    .when('/product-detail', {
+    .when('/product_detail/:pk', {
       templateUrl: 'app/partials/product_detail.html',
       controller: 'productDetailCtrl'
     })

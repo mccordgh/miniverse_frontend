@@ -1,14 +1,18 @@
-<h1> {{title}} </h1>
-<div class="image-wrap">
-	<p> THIS NEEDS TO BE AN IMAGE IF WE DECIDE TO USE IMAGES</p>
+<div ng-if="isLogged === 'true'">
+	<h1> {{product.name}} </h1>
+	<ul>
+		<li>description: {{product.description}}</li>
+		<li>price: ${{product.price}}</li>
+		<li>quantity: {{product.quantity}}</li>
+	</ul>
+
+	<button>Add product to Cart</button>
 </div>
-<div class="row">
-	<div class="col-md-6">
-		<ul class="product-info">
-			<li>PRODUCT PRICE</li>
-			<li>PRODUCT QUANITY </li>
-			<li>PRODUCT DESCRIPTION</li>
-		</ul>
-	</div>
-	<button>ADD TO CART </button>
-</div> 
+
+<div ng-if="isLogged === 'false'">
+	<h1>Please Login to view product details</h1>
+</div>
+
+<div ng-if="isLogged === 'waiting'">
+	<h2>Retrieving Product Details...</h2>
+</div>

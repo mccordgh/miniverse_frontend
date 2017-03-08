@@ -2,7 +2,7 @@
 app.controller('NavCtrl', function($scope, $http, $location) {
   $scope.navItems = [
     { name: "Home", url: '#/home' },
-    { name: "Products", url: '#/products' },
+    { name: "Products", url: '#/product_types' },
     { name: "Sell Products", url: '#/sellproduct' }
   ];
 
