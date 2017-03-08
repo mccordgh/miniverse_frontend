@@ -46,7 +46,7 @@ app.factory('apiFactory', function apiFactoryFunc($http) {
 			return new Promise(function (resolve, reject){
 				$http({
 					url: 'http://localhost:8000/product_types/',
-					method: 'GET'
+					method: 'GET',
 				}).then(function success(response) {
 						resolve(response.data);
 	  			}, function error(response) {
