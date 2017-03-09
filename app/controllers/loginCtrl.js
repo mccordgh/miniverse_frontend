@@ -5,11 +5,6 @@
 
 app.controller('loginCtrl', function($scope, $http, $location) {
 
-  $scope.user = {
-    username: "admin",
-    password: "password1234"
-  };
-
   $scope.register = function() {
     $http({
       url: "http://localhost:8000/register/",
@@ -43,8 +38,8 @@ app.controller('loginCtrl', function($scope, $http, $location) {
         "Content-Type": "application/x-www-form-urlencoded"
       },
       data: {
-        "username": $scope.user.username,
-        "password": $scope.user.password
+        "username": $scope.username,
+        "password": $scope.password
       }
     }).then(
       res => {
