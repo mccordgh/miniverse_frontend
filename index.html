@@ -2,36 +2,39 @@
 <html>
 
 <head>
-  <title>Bangazon</title>
+  <title>Miniverse</title>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="stylesheet" href="lib/node_modules/bootstrap/dist/css/bootstrap.min.css">
+   <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+
+    <!-- JavaScript for: jQuery, angular, materialize, and angular-materialize. All of which are needed. -->
+<link rel="stylesheet" href="lib/node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/main.css">
 </head>
 
-<body ng-app="Bangazon">
-  <h1>Bangazon</h1>
+<body ng-app="Miniverse">
   <div ng-include="'app/partials/nav.html'"></div>
-  <div id="wrapper">
+  <div class="wrapper">
     <div ng-view>
     </div>
   </div>
   <script src="lib/bower_components/angular/angular.min.js"></script>
   <script src="lib/bower_components/angular-route/angular-route.min.js"></script>
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="lib/node_modules/jquery/dist/jquery.min.js"></script>
-  <script src="lib/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.2/angular-materialize.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+  <!-- Main Angular app file -->
   <script src="app/app.js"></script>
-  <script src="app/controllers/controllers.js"></script>
+  <!-- Angular Factories -->
   <script src="app/factories/apiFactory.js"></script>
-  <script src="app/controllers/sellProductCtrl.js"></script>
+  <script src="app/factories/authFactory.js"></script>
+  <script src="app/factories/gameFactory.js"></script>
+  <!-- Angular Controllers -->
+  <script src="app/controllers/AdventureCtrl.js"></script>
+  <script src="app/controllers/HomeCtrl.js"></script>
   <script src="app/controllers/NavCtrl.js"></script>
-  <script src="app/controllers/cartCtrl.js"></script>
-  <script src="app/controllers/productListCtrl.js"></script>
-  <script src="app/controllers/productTypesCtrl.js"></script>
-  <script src="app/controllers/productDetailCtrl.js"></script>
-  <script src="app/controllers/loginCtrl.js"></script>
-
+  <script src="app/controllers/PlayCtrl.js"></script>
 </body>
 
 </html>

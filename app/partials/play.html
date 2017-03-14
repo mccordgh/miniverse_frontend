@@ -1,0 +1,37 @@
+<h2 class="adventure-title">{{gameObject.title}}</h2>
+
+<div class="container adventure-container">
+	
+	<div class="row adventure-row">
+
+		<div class="col l9 m9 adventure-text">
+			<p>{{gameObject.roomText}}</p>
+			<p ng-if="gameObject.roomItem.name">You see a {{gameObject.roomItem.name}}. {{gameObject.roomItem.description}}</p>
+			<p ng-if="gameObject.roomInteractive.name">You can interact with a {{gameObject.roomInteractive.name}}. {{gameObject.roomInteractive.description}}</p>
+			<p>You see exits to the: {{gameObject.exits}}.</p>
+		</div>
+
+		<div class="col l3 m3 adventure-inventory">
+			<h2>Inventory:</h2>
+			<hr />
+			{{gameObject.inventory}}
+		</div>
+
+		<div class="adventure-footer col l12 m12">
+			<ul>
+				<li> 
+					MOVE (N)orth, (S)outh, (E)ast, (W)est
+				</li>
+				<li>
+					TAKE (item name)
+				</li>
+				<li>
+					USE (item name) ON (interactive name)
+				</li>
+			</ul>
+
+			<input id="userInput" class="adventure-input" ng-keypress="handleUserInput($event)" ng-model="userInput">
+		</div>
+	</div>
+
+</div>

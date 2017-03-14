@@ -1,16 +1,72 @@
-h2 {
-    color: grey;
+body, html {
+	height: 100%;
+	background-color: #ddd;
 }
 
-form {
-    max-width: 600px;
-    /*background-color: lightblue;*/
+.adventure-container {
+	padding: 5px;
+	margin: 5px;
+	border: solid 2px;
+	height: 500px;
+	width: 100%;
+}
+
+.adventure-footer {
+	padding: 15px;
+	border: solid 2px;
+	height: 20%;
+}
+
+.adventure-footer input {
+	width: 100%;
+}
+
+.adventure-footer li {
+	display: inline;
+	padding-right: 10px;
+}
+
+.adventure-footer ul {
+	padding: 0;
+}
+
+.adventure-inventory {
+	height: 80%;
+	padding: 25px;
+	border: solid 2px;
+}
+
+.adventure-row {
+	height: 100%;
+}
+
+.adventure-text {
+	height: 80%;
+	padding: 25px;
+	border: solid 2px;
+}
+
+.adventure-title {
+	text-align: center;
+	color: #222;
+	margin: 0 auto 20px;
 }
 
 .form-group {
     margin: 20px;
 }
 
-#wrapper {
-    margin-left: 30px;
+.navbar .navbar-collapse {
+  text-align: center;
 }
+
+.navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+}
+
+.wrapper {
+    margin: 30px;
+}
+
