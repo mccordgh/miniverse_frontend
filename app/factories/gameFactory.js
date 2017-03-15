@@ -99,7 +99,7 @@ app.factory('gameFactory', function gameFactoryFunc($http) {
 
 		setCurrentRoom(newRoom) {
 			currentRoom = newRoom;
-		},
+		}
 
 	};
 

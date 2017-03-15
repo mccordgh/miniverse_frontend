@@ -2,9 +2,10 @@
 app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 
 	gameFactory.setCurrentAdventure(apiFactory.getAdventure(1));
-	$scope.userInput = "take dog bone";
+	$scope.userInput = "move n";
 
 	let validExits = gameFactory.getExits();
+	// gameFactory.setCurrentRoom(3);
 	let room = gameFactory.getCurrentRoom();
 
 	$scope.gameObject = {
@@ -17,7 +18,7 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 	};
 
 	$scope.handleUserInput = function(event) {
-		console.log(event);
+		// console.log(event);
 		if (event.charCode === 13) {
 			let args = $scope.userInput.toUpperCase().split(" ");
 			// Get first word from user input aka the command (MOVE, TAKE, USE)
@@ -81,5 +82,8 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 	function useItem(){
 		console.log("use item function");
 	}
+
+	takeItem("DOG BONE");
+	gameFactory.setCurrentRoom(0);
 
 });
