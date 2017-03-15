@@ -72,25 +72,49 @@ app.factory('gameFactory', function gameFactoryFunc($http) {
 			}
 		},
 
+		getInteractiveByName(name){
+			let interactiveID = currentAdventure.rooms[currentRoom].interactive_id;
+			let interactive = {};
+
+				for(let i=0; i < currentAdventure.interactives.length; i++){
+					if (currentAdventure.interactives[i].name.toLowerCase() === name)
+						interactive = currentAdventure.interactives[i];
+				}
+
+				if (interactive.id === interactiveID){
+					return interactive;
+				} else {
+					return null;
+				}
+
+		},
+
 		getInventory() {
 			if (inventory.length === 0)
 				return null;
 			return inventory;
 		},
+		//Get Item From Inventory by Name
+		getItemByName(name){
+			let item = {};
+				for(let i=0; i < inventory.length; i++){
+					if (inventory[i].name.toLowerCase() === name)
+						return inventory[i];
+				}
+			
+			return null;
+		},
 
 		addToInventory(item) {
 			let itemID = currentAdventure.rooms[currentRoom].item_id;
 			let newItem = {};
-			console.log("adventure items", currentAdventure.items);
 			for (let i=0; i < currentAdventure.items.length; i++){
 				if (currentAdventure.items[i].id === itemID) {
 					newItem = currentAdventure.items[i];
 					currentAdventure.items.splice(i, 1);
 				}
 			}
-			console.log("newItem", newItem);
 			inventory.push(newItem);
-			console.log("adventure items", currentAdventure.items);
 		},
 
 		setCurrentAdventure(newAdventure) {
@@ -99,6 +123,16 @@ app.factory('gameFactory', function gameFactoryFunc($http) {
 
 		setCurrentRoom(newRoom) {
 			currentRoom = newRoom;
+		},
+
+		useItemOnInteractive(item, interactive){
+			console.log("item", item);
+			console.log("interactive", interactive);
+
+			if (item.id !== interactive.activator_id)
+				return null;
+		
+			
 		}
 
 	};
