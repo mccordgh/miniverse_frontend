@@ -12,10 +12,10 @@
 		</div>
 
 		<div class="col l3 m3 adventure-inventory">
-			<h3 class="inventory">Inventory:</h3>
+			<h3 class="inventory">Inventory</h3>
 			<ul>
 				<li ng-repeat="item in gameObject.inventory">
-					{{item.name}}
+					<pop>{{item.name}}</pop>
 				</li>
 		</div>
 
@@ -32,7 +32,7 @@
 				</li>
 			</ul>
 
-			<input id="userInput" class="adventure-input" ng-keypress="handleUserInput($event)" ng-model="userInput">
+			<input id="userInputBox" class="adventure-input" ng-keypress="handleUserInput($event)" ng-model="userInput">
 		</div>
 	</div>
 

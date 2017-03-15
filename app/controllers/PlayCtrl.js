@@ -1,12 +1,13 @@
 'use strict';
 app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 
-	gameFactory.setCurrentAdventure(apiFactory.getAdventure(1));
-	$scope.userInput = "move n";
+	$('#userInputBox').prop( "disabled", true );
 
-	let validExits = gameFactory.getExits();
-	// gameFactory.setCurrentRoom(3);
+	gameFactory.setCurrentAdventure(apiFactory.getAdventure(1));
+	$scope.userInput = "use dog bone on snarling dog";
+
 	let room = gameFactory.getCurrentRoom();
+	let validExits = gameFactory.getExits();
 
 	$scope.gameObject = {
 		title: gameFactory.getCurrentAdventureName(),
@@ -18,11 +19,10 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 	};
 
 	$scope.handleUserInput = function(event) {
-		// console.log(event);
 		if (event.charCode === 13) {
-			let args = $scope.userInput.toUpperCase().split(" ");
+			let args = $scope.userInput.toLowerCase().split(" ");
 			// Get first word from user input aka the command (MOVE, TAKE, USE)
-			switch (args[0].toLowerCase()) {
+			switch (args[0]) {
 				case 'move':
 					movePlayer(args[1]);
 					break;
@@ -30,7 +30,10 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 					takeItem(args.join(" ").slice(5));
 					break;
 				case 'use':
-					useItem();
+					let itemAndInteractive = args.join(" ").slice(4).split(" on ");
+					let item = itemAndInteractive[0];
+					let interactive = itemAndInteractive[1];
+					useItemOnInteractive(item, interactive);
 					break;
 				default:
 					alert("did not understand command");
@@ -43,12 +46,9 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 		let directionToMove = "";
 
 		for (let i=0; i < validExits.length; i++){
-			console.log(validExits[i], dir, direction);
 			if (validExits[i].charAt(0) === dir || validExits[i] === direction)
 				directionToMove = dir;
 		}
-
-		console.log("setting room");
 
 		if (directionToMove){
 			switch (dir){
@@ -69,7 +69,7 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 			$route.reload();
 
 		} else {
-			console.log("not a valid direction to move");
+			alert("not a valid direction to move.");
 		}
 	}
 
@@ -79,11 +79,32 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 		$scope.gameObject.roomItem = gameFactory.getCurrentItem();
 	}
 
-	function useItem(){
-		console.log("use item function");
+	function useItemOnInteractive(item, interactive){
+		let itemObj = gameFactory.getItemByName(item);
+		let interactiveObj = gameFactory.getInteractiveByName(interactive);
+
+		if (itemObj === null || interactiveObj === null || interactiveObj.activator_id !== itemObj.id){
+			alert("Invalid item or interactive");
+			return;
+		}
+
+		gameFactory.useItemOnInteractive(itemObj, interactiveObj);
+		$scope.gameObject.inventory = gameFactory.getInventory();
+		$scope.gameObject.roomInteractive = gameFactory.getCurrentInteractive();
+
 	}
 
+	$('#userInputBox').prop( "disabled", false );
+	$('#userInputBox').focus();
+
+	/////////////////////////////////////////////////////////////////
+	///                     TESTING ZONE                          ///
+	///////////////////////////////////////////////////////////////// 
+	
+	gameFactory.setCurrentRoom(3);
+	validExits = gameFactory.getExits();
 	takeItem("DOG BONE");
 	gameFactory.setCurrentRoom(0);
+	validExits = gameFactory.getExits();
 
 });
