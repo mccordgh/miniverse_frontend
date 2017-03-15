@@ -1,6 +1,6 @@
 <h2 class="adventure-title">{{gameObject.title}}</h2>
 
-<div class="container adventure-container">
+<div class="container adventure-container" ng-hide="isGameOver">
 	
 	<div class="row adventure-row">
 
@@ -8,14 +8,14 @@
 			<p>{{gameObject.roomText}}</p>
 			<p ng-if="gameObject.roomItem.name">You see a <pop>{{gameObject.roomItem.name}}</pop>. {{gameObject.roomItem.description}}</p>
 			<p ng-if="gameObject.roomInteractive.name">You can interact with a <pop>{{gameObject.roomInteractive.name}}</pop>.. {{gameObject.roomInteractive.description}}</p>
-			<p>You see exits to the: {{gameObject.exits}}.</p>
+			<p>You see exits to the: <pop>{{gameObject.exits}}</pop>.</p>
 		</div>
 
 		<div class="col l3 m3 adventure-inventory">
-			<h3 class="inventory">Inventory:</h3>
+			<h3 class="inventory">Inventory</h3>
 			<ul>
 				<li ng-repeat="item in gameObject.inventory">
-					{{item.name}}
+					<pop>{{item.name}}</pop>
 				</li>
 		</div>
 
@@ -32,8 +32,13 @@
 				</li>
 			</ul>
 
-			<input id="userInput" class="adventure-input" ng-keypress="handleUserInput($event)" ng-model="userInput">
+			<input id="userInputBox" class="adventure-input" ng-keypress="handleUserInput($event)" ng-model="userInput" />
 		</div>
 	</div>
 
+</div>
+
+<div ng-show="isGameOver">
+<h2>Congratulations you win</h2>
+<p><a href="/#/home">Return to Home</a></p>
 </div>

@@ -1,12 +1,17 @@
 "use strict";
 
-app.factory('gameFactory', function gameFactoryFunc($http) {
+app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 
 	let currentAdventure = {};
 	let currentRoom = 0;
 	let inventory = [];
+	let isGameOver = false;
 
 	let gameFactoryObject = {
+
+		endAdventure(){
+			// this.setIsGameOver(true);
+		},
 
 		getCurrentAdventure() {
 			return currentAdventure;
@@ -72,25 +77,67 @@ app.factory('gameFactory', function gameFactoryFunc($http) {
 			}
 		},
 
+		getInteractiveByName(name){
+			let interactiveID = currentAdventure.rooms[currentRoom].interactive_id;
+			let interactive = {};
+
+				for(let i=0; i < currentAdventure.interactives.length; i++){
+					if (currentAdventure.interactives[i].name.toLowerCase() === name)
+						interactive = currentAdventure.interactives[i];
+				}
+
+				if (interactive.id === interactiveID){
+					return interactive;
+				} else {
+					return null;
+				}
+
+		},
+
 		getInventory() {
 			if (inventory.length === 0)
 				return null;
 			return inventory;
 		},
 
+		getIsGameOver(){
+			return isGameOver;
+		},
+
+		getItemByName(name){
+			name = name.toLowerCase();
+			let item = {};
+				for(let i=0; i < currentAdventure.items.length; i++){
+					if (currentAdventure.items[i].name.toLowerCase() === name)
+						return currentAdventure.items[i];
+				}
+			
+			return null;
+		},
+
+		//Get Item From Inventory by Name
+		getItemFromInventoryByName(name){
+			name = name.toLowerCase();
+			let item = {};
+				for(let i=0; i < inventory.length; i++){
+					if (inventory[i].name.toLowerCase() === name)
+						return inventory[i];
+				}
+			
+			return null;
+		},
+
 		addToInventory(item) {
-			let itemID = currentAdventure.rooms[currentRoom].item_id;
+			item = this.getItemByName(item);
+			let itemID = item.id;
 			let newItem = {};
-			console.log("adventure items", currentAdventure.items);
 			for (let i=0; i < currentAdventure.items.length; i++){
 				if (currentAdventure.items[i].id === itemID) {
 					newItem = currentAdventure.items[i];
 					currentAdventure.items.splice(i, 1);
 				}
 			}
-			console.log("newItem", newItem);
 			inventory.push(newItem);
-			console.log("adventure items", currentAdventure.items);
 		},
 
 		setCurrentAdventure(newAdventure) {
@@ -99,6 +146,31 @@ app.factory('gameFactory', function gameFactoryFunc($http) {
 
 		setCurrentRoom(newRoom) {
 			currentRoom = newRoom;
+		}
+
+		setIsGameOver(flag){
+			isGameOver = flag;
+		},
+
+		useItemOnInteractive(item, interactive){
+
+			if (item.id !== interactive.activator_id)
+				return null;
+			
+			if (interactive.action === "end"){
+				this.setIsGameOver(true);
+				// this.endAdventure();
+				return;
+			}
+
+			let newItem = currentAdventure.items[interactive.reward_id - 1];
+		
+			inventory.splice(item.id - 1, 1);
+			currentAdventure.interactives.splice(interactive.id - 1, 1);
+
+			this.addToInventory(newItem.name);
+
+
 		}
 
 	};

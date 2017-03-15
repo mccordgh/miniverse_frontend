@@ -1,12 +1,15 @@
 'use strict';
 app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 
-	gameFactory.setCurrentAdventure(apiFactory.getAdventure(1));
-	$scope.userInput = "move n";
+	$scope.isGameOver = gameFactory.getIsGameOver();
 
-	let validExits = gameFactory.getExits();
-	// gameFactory.setCurrentRoom(3);
+	$('#userInputBox').prop( "disabled", true );
+
+	gameFactory.setCurrentAdventure(apiFactory.getAdventure(1));
+	$scope.userInput = "";
+
 	let room = gameFactory.getCurrentRoom();
+	let validExits = gameFactory.getExits();
 
 	$scope.gameObject = {
 		title: gameFactory.getCurrentAdventureName(),
@@ -18,11 +21,10 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 	};
 
 	$scope.handleUserInput = function(event) {
-		// console.log(event);
 		if (event.charCode === 13) {
-			let args = $scope.userInput.toUpperCase().split(" ");
+			let args = $scope.userInput.toLowerCase().split(" ");
 			// Get first word from user input aka the command (MOVE, TAKE, USE)
-			switch (args[0].toLowerCase()) {
+			switch (args[0]) {
 				case 'move':
 					movePlayer(args[1]);
 					break;
@@ -30,7 +32,10 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 					takeItem(args.join(" ").slice(5));
 					break;
 				case 'use':
-					useItem();
+					let itemAndInteractive = args.join(" ").slice(4).split(" on ");
+					let item = itemAndInteractive[0];
+					let interactive = itemAndInteractive[1];
+					useItemOnInteractive(item, interactive);
 					break;
 				default:
 					alert("did not understand command");
@@ -43,25 +48,22 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 		let directionToMove = "";
 
 		for (let i=0; i < validExits.length; i++){
-			console.log(validExits[i], dir, direction);
-			if (validExits[i].charAt(0) === dir || validExits[i] === direction)
+			if (validExits[i].charAt(0).toLowerCase() === dir || validExits[i].toLowerCase() === direction)
 				directionToMove = dir;
 		}
 
-		console.log("setting room");
-
 		if (directionToMove){
 			switch (dir){
-				case 'N':
+				case 'n':
 					gameFactory.setCurrentRoom(room - 2);
 					break;
-				case 'E':
+				case 'e':
 					gameFactory.setCurrentRoom(room + 1);
 					break;
-				case 'S':
+				case 's':
 					gameFactory.setCurrentRoom(room + 2);
 					break;
-				case 'W':
+				case 'w':
 					gameFactory.setCurrentRoom(room - 1);
 					break;
 			}
@@ -69,7 +71,7 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 			$route.reload();
 
 		} else {
-			console.log("not a valid direction to move");
+			alert("not a valid direction to move.");
 		}
 	}
 
@@ -77,13 +79,36 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 		gameFactory.addToInventory(item);
 		$scope.gameObject.inventory = gameFactory.getInventory();
 		$scope.gameObject.roomItem = gameFactory.getCurrentItem();
+		$('#userInputBox').prop('value', '');
 	}
 
-	function useItem(){
-		console.log("use item function");
+	function useItemOnInteractive(item, interactive){
+		let itemObj = gameFactory.getItemFromInventoryByName(item);
+		let interactiveObj = gameFactory.getInteractiveByName(interactive);
+
+		if (itemObj === null || interactiveObj === null || interactiveObj.activator_id !== itemObj.id){
+			alert("Invalid item or interactive");
+			return;
+		}
+
+		gameFactory.useItemOnInteractive(itemObj, interactiveObj);
+		$scope.gameObject.inventory = gameFactory.getInventory();
+		$scope.gameObject.roomInteractive = gameFactory.getCurrentInteractive();
+		$('#userInputBox').prop('value', '');
+		$scope.isGameOver = gameFactory.getIsGameOver();
 	}
 
-	takeItem("DOG BONE");
-	gameFactory.setCurrentRoom(0);
+	$('#userInputBox').prop( "disabled", false );
+	$('#userInputBox').focus();
+
+	/////////////////////////////////////////////////////////////////
+	///                     TESTING ZONE                          ///
+	///////////////////////////////////////////////////////////////// 
+	
+	// gameFactory.setCurrentRoom(3);
+	// validExits = gameFactory.getExits();
+	// takeItem("DOG BONE");
+	// gameFactory.setCurrentRoom(0);
+	// validExits = gameFactory.getExits();
 
 });

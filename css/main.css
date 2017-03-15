@@ -5,26 +5,36 @@ body, html {
 	font-size: 1em;
 }
 
+h2 {
+	margin: 0;
+}
+
 h3 {
 	max-width: 100%;
 }
 
 .adventure-container {
-	padding: 5px;
-	margin: 5px;
-	border: solid 5px;
-	height: 500px;
+
+	padding: 0;
+	margin: 0;
+	height: 550px;
 	width: 100%;
 }
 
 .adventure-footer {
-	padding: 15px;
+	padding: 0;
+	margin: 0;
 	border: solid 5px;
 	height: 20%;
 }
 
 .adventure-footer input {
-	width: 100%;
+	height: 49%;
+	border: solid 5px;
+	padding: 0 15px;
+	margin: 0 auto;
+	height: 30%;
+	width: 95%;
 }
 
 .adventure-footer li {
@@ -33,17 +43,23 @@ h3 {
 }
 
 .adventure-footer ul {
+	text-align: center;
+	height: 40%;
 	padding: 0;
+	margin: 0;
 }
 
 .adventure-inventory {
+	padding: 0;
+	margin: 0;
 	height: 80%;
-	padding: 25px;
 	border: solid 5px;
 }
 
 .adventure-row {
 	height: 100%;
+	padding: 0;
+	margin: 0;
 }
 
 .adventure-text {
@@ -55,6 +71,11 @@ h3 {
 .adventure-title {
 	text-align: center;
 	margin: 0 auto 20px;
+}
+
+.col {
+	padding: 0;
+	margin: 0;
 }
 
 .form-group {
@@ -90,7 +111,12 @@ pop {
 	color: yellow;
 }
 
+.row {
+	padding: 0;
+	margin: 0;
+}
+
 .wrapper {
-    margin: 30px;
+    margin: 10px 30px;
 }
 
