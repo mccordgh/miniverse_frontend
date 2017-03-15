@@ -3,15 +3,21 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-left" ng-repeat="item in navItems">
         <li>
-          <a href="{{item.url}}">{{item.name}}</a>
+          <a href="{{item.url}}" class="navlink">{{item.name}}</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-center">
         <li>
+          <h2> << </h2>
+        </li>
+        <li>
           <a href="">Miniverse</a>
         </li>
+        <li>
+          <h2> >> </h2>
+        </li>
       </ul>
-      <ul class="nav navbar-nav navbar-right" ng-repeat="item in signOut">
+      <ul class="nav navbar-nav navbar-right navlink" ng-repeat="item in signOut">
         <li>
           <a href="{{item.url}}">{{item.name}}</a>
         </li>

@@ -79,7 +79,18 @@ app.factory('gameFactory', function gameFactoryFunc($http) {
 		},
 
 		addToInventory(item) {
-			inventory.push(item);
+			let itemID = currentAdventure.rooms[currentRoom].item_id;
+			let newItem = {};
+			console.log("adventure items", currentAdventure.items);
+			for (let i=0; i < currentAdventure.items.length; i++){
+				if (currentAdventure.items[i].id === itemID) {
+					newItem = currentAdventure.items[i];
+					currentAdventure.items.splice(i, 1);
+				}
+			}
+			console.log("newItem", newItem);
+			inventory.push(newItem);
+			console.log("adventure items", currentAdventure.items);
 		},
 
 		setCurrentAdventure(newAdventure) {

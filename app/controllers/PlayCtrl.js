@@ -2,7 +2,7 @@
 app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 
 	gameFactory.setCurrentAdventure(apiFactory.getAdventure(1));
-	$scope.userInput = "move e";
+	$scope.userInput = "take dog bone";
 
 	let validExits = gameFactory.getExits();
 	let room = gameFactory.getCurrentRoom();
@@ -16,7 +16,6 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 		exits: validExits.join(", ")
 	};
 
-
 	$scope.handleUserInput = function(event) {
 		console.log(event);
 		if (event.charCode === 13) {
@@ -27,7 +26,7 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 					movePlayer(args[1]);
 					break;
 				case 'take':
-					takeItem();
+					takeItem(args.join(" ").slice(5));
 					break;
 				case 'use':
 					useItem();
@@ -73,13 +72,14 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 		}
 	}
 
-	function takeItem(){
-		console.log("take item function");
+	function takeItem(item){
+		gameFactory.addToInventory(item);
+		$scope.gameObject.inventory = gameFactory.getInventory();
+		$scope.gameObject.roomItem = gameFactory.getCurrentItem();
 	}
 
 	function useItem(){
 		console.log("use item function");
 	}
 
-	// $scope.handleUserInput();
 });

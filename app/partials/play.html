@@ -6,27 +6,30 @@
 
 		<div class="col l9 m9 adventure-text">
 			<p>{{gameObject.roomText}}</p>
-			<p ng-if="gameObject.roomItem.name">You see a {{gameObject.roomItem.name}}. {{gameObject.roomItem.description}}</p>
-			<p ng-if="gameObject.roomInteractive.name">You can interact with a {{gameObject.roomInteractive.name}}. {{gameObject.roomInteractive.description}}</p>
+			<p ng-if="gameObject.roomItem.name">You see a <pop>{{gameObject.roomItem.name}}</pop>. {{gameObject.roomItem.description}}</p>
+			<p ng-if="gameObject.roomInteractive.name">You can interact with a <pop>{{gameObject.roomInteractive.name}}</pop>.. {{gameObject.roomInteractive.description}}</p>
 			<p>You see exits to the: {{gameObject.exits}}.</p>
 		</div>
 
 		<div class="col l3 m3 adventure-inventory">
-			<h2>Inventory:</h2>
+			<h3>Inventory:</h3>
 			<hr />
-			{{gameObject.inventory}}
+			<ul>
+				<li ng-repeat="item in gameObject.inventory">
+					{{item.name}}
+				</li>
 		</div>
 
 		<div class="adventure-footer col l12 m12">
 			<ul>
 				<li> 
-					MOVE (N)orth, (S)outh, (E)ast, (W)est
+					<pop>MOVE</pop> (<pop>N</pop>)orth, (<pop>S</pop>)outh, (<pop>E</pop>)ast, (<pop>W</pop>)est |
 				</li>
 				<li>
-					TAKE (item name)
+					<pop>TAKE</pop> (item name) |
 				</li>
 				<li>
-					USE (item name) ON (interactive name)
+					<pop>USE</pop> (item name) <pop>ON</pop> (interactive name)
 				</li>
 			</ul>
 
