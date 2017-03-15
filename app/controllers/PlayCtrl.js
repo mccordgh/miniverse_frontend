@@ -1,10 +1,12 @@
 'use strict';
 app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 
+	$scope.isGameOver = gameFactory.getIsGameOver();
+
 	$('#userInputBox').prop( "disabled", true );
 
 	gameFactory.setCurrentAdventure(apiFactory.getAdventure(1));
-	$scope.userInput = "use dog bone on snarling dog";
+	$scope.userInput = "";
 
 	let room = gameFactory.getCurrentRoom();
 	let validExits = gameFactory.getExits();
@@ -46,22 +48,22 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 		let directionToMove = "";
 
 		for (let i=0; i < validExits.length; i++){
-			if (validExits[i].charAt(0) === dir || validExits[i] === direction)
+			if (validExits[i].charAt(0).toLowerCase() === dir || validExits[i].toLowerCase() === direction)
 				directionToMove = dir;
 		}
 
 		if (directionToMove){
 			switch (dir){
-				case 'N':
+				case 'n':
 					gameFactory.setCurrentRoom(room - 2);
 					break;
-				case 'E':
+				case 'e':
 					gameFactory.setCurrentRoom(room + 1);
 					break;
-				case 'S':
+				case 's':
 					gameFactory.setCurrentRoom(room + 2);
 					break;
-				case 'W':
+				case 'w':
 					gameFactory.setCurrentRoom(room - 1);
 					break;
 			}
@@ -77,10 +79,11 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 		gameFactory.addToInventory(item);
 		$scope.gameObject.inventory = gameFactory.getInventory();
 		$scope.gameObject.roomItem = gameFactory.getCurrentItem();
+		$('#userInputBox').prop('value', '');
 	}
 
 	function useItemOnInteractive(item, interactive){
-		let itemObj = gameFactory.getItemByName(item);
+		let itemObj = gameFactory.getItemFromInventoryByName(item);
 		let interactiveObj = gameFactory.getInteractiveByName(interactive);
 
 		if (itemObj === null || interactiveObj === null || interactiveObj.activator_id !== itemObj.id){
@@ -91,7 +94,8 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 		gameFactory.useItemOnInteractive(itemObj, interactiveObj);
 		$scope.gameObject.inventory = gameFactory.getInventory();
 		$scope.gameObject.roomInteractive = gameFactory.getCurrentInteractive();
-
+		$('#userInputBox').prop('value', '');
+		$scope.isGameOver = gameFactory.getIsGameOver();
 	}
 
 	$('#userInputBox').prop( "disabled", false );
@@ -101,10 +105,10 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 	///                     TESTING ZONE                          ///
 	///////////////////////////////////////////////////////////////// 
 	
-	gameFactory.setCurrentRoom(3);
-	validExits = gameFactory.getExits();
-	takeItem("DOG BONE");
-	gameFactory.setCurrentRoom(0);
-	validExits = gameFactory.getExits();
+	// gameFactory.setCurrentRoom(3);
+	// validExits = gameFactory.getExits();
+	// takeItem("DOG BONE");
+	// gameFactory.setCurrentRoom(0);
+	// validExits = gameFactory.getExits();
 
 });

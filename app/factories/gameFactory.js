@@ -1,12 +1,17 @@
 "use strict";
 
-app.factory('gameFactory', function gameFactoryFunc($http) {
+app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 
 	let currentAdventure = {};
 	let currentRoom = 0;
 	let inventory = [];
+	let isGameOver = false;
 
 	let gameFactoryObject = {
+
+		endAdventure(){
+			// this.setIsGameOver(true);
+		},
 
 		getCurrentAdventure() {
 			return currentAdventure;
@@ -94,8 +99,25 @@ app.factory('gameFactory', function gameFactoryFunc($http) {
 				return null;
 			return inventory;
 		},
-		//Get Item From Inventory by Name
+
+		getIsGameOver(){
+			return isGameOver;
+		},
+
 		getItemByName(name){
+			name = name.toLowerCase();
+			let item = {};
+				for(let i=0; i < currentAdventure.items.length; i++){
+					if (currentAdventure.items[i].name.toLowerCase() === name)
+						return currentAdventure.items[i];
+				}
+			
+			return null;
+		},
+
+		//Get Item From Inventory by Name
+		getItemFromInventoryByName(name){
+			name = name.toLowerCase();
 			let item = {};
 				for(let i=0; i < inventory.length; i++){
 					if (inventory[i].name.toLowerCase() === name)
@@ -106,7 +128,8 @@ app.factory('gameFactory', function gameFactoryFunc($http) {
 		},
 
 		addToInventory(item) {
-			let itemID = currentAdventure.rooms[currentRoom].item_id;
+			item = this.getItemByName(item);
+			let itemID = item.id;
 			let newItem = {};
 			for (let i=0; i < currentAdventure.items.length; i++){
 				if (currentAdventure.items[i].id === itemID) {
@@ -125,14 +148,29 @@ app.factory('gameFactory', function gameFactoryFunc($http) {
 			currentRoom = newRoom;
 		},
 
+		setIsGameOver(flag){
+			isGameOver = flag;
+		},
+
 		useItemOnInteractive(item, interactive){
-			console.log("item", item);
-			console.log("interactive", interactive);
 
 			if (item.id !== interactive.activator_id)
 				return null;
-		
 			
+			if (interactive.action === "end"){
+				this.setIsGameOver(true);
+				// this.endAdventure();
+				return;
+			}
+
+			let newItem = currentAdventure.items[interactive.reward_id - 1];
+		
+			inventory.splice(item.id - 1, 1);
+			currentAdventure.interactives.splice(interactive.id - 1, 1);
+
+			this.addToInventory(newItem.name);
+
+
 		}
 
 	};
