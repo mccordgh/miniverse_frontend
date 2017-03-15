@@ -146,7 +146,7 @@ app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 
 		setCurrentRoom(newRoom) {
 			currentRoom = newRoom;
-		}
+		},
 
 		setIsGameOver(flag){
 			isGameOver = flag;

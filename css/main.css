@@ -3,6 +3,7 @@ body, html {
 	background-color: #1A2632;
 	color: #00AB9A;
 	font-size: 1em;
+	text-transform: uppercase;
 }
 
 h2 {
@@ -10,7 +11,9 @@ h2 {
 }
 
 h3 {
+	font-size: 1.5em;
 	max-width: 100%;
+	text-align: center;
 }
 
 .adventure-container {
