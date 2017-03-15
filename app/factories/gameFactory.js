@@ -6,6 +6,7 @@ app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 	let currentRoom = 0;
 	let inventory = [];
 	let isGameOver = false;
+	let isLoaded = false;
 
 	let gameFactoryObject = {
 
@@ -127,6 +128,10 @@ app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 			return null;
 		},
 
+		getIsLoaded() {
+			return isLoaded;
+		},
+
 		addToInventory(item) {
 			item = this.getItemByName(item);
 			let itemID = item.id;
@@ -152,7 +157,13 @@ app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 			isGameOver = flag;
 		},
 
+		setIsLoaded(flag){
+			isLoaded = flag;
+		},
+
 		useItemOnInteractive(item, interactive){
+
+			let newItem = {};
 
 			if (item.id !== interactive.activator_id)
 				return null;
@@ -163,8 +174,12 @@ app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 				return;
 			}
 
-			let newItem = currentAdventure.items[interactive.reward_id - 1];
-		
+			for (let i=0; i < currentAdventure.items.length; i++){
+				if (currentAdventure.items[i].id === interactive.reward_id)
+					newItem = currentAdventure.items[i];
+			}
+			
+
 			inventory.splice(item.id - 1, 1);
 			currentAdventure.interactives.splice(interactive.id - 1, 1);
 

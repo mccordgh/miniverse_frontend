@@ -5,14 +5,36 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 
 	let room = 0;
 	let validExits = [];
+	let isLoaded = gameFactory.getIsLoaded();
 
 	$scope.isGameOver = gameFactory.getIsGameOver();
 	$scope.userInput = "";
 
+	if (!isLoaded){
+		apiFactory.getAdventure(3)
+		.then((data) => {
+			gameFactory.setCurrentAdventure(data);
 
-	apiFactory.getAdventure(1)
-	.then((data) => {
-		gameFactory.setCurrentAdventure(data);
+			room = gameFactory.getCurrentRoom();
+			validExits = gameFactory.getExits();
+
+
+			$scope.gameObject = {
+				title: gameFactory.getCurrentAdventureName(),
+				roomText: gameFactory.getCurrentRoomText(),
+				inventory: gameFactory.getInventory(),
+				roomItem: gameFactory.getCurrentItem(),
+				roomInteractive: gameFactory.getCurrentInteractive(),
+				exits: validExits.join(", ")
+			};
+
+			$scope.$apply();
+			$('#userInputBox').prop( "disabled", false );
+			$('#userInputBox').focus();
+			gameFactory.setIsLoaded(true);
+		});
+
+	} else {
 
 		room = gameFactory.getCurrentRoom();
 		validExits = gameFactory.getExits();
@@ -27,10 +49,10 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 			exits: validExits.join(", ")
 		};
 
-		$scope.$apply();
 		$('#userInputBox').prop( "disabled", false );
 		$('#userInputBox').focus();
-	});
+
+	}
 
 		$scope.handleUserInput = function(event) {
 			if (event.charCode === 13) {
@@ -88,10 +110,14 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 		}
 
 		function takeItem(item){
-			gameFactory.addToInventory(item);
-			$scope.gameObject.inventory = gameFactory.getInventory();
-			$scope.gameObject.roomItem = gameFactory.getCurrentItem();
-			$('#userInputBox').prop('value', '');
+			if (gameFactory.getItemByName(item)){
+				gameFactory.addToInventory(item);
+				$scope.gameObject.inventory = gameFactory.getInventory();
+				$scope.gameObject.roomItem = gameFactory.getCurrentItem();
+				$('#userInputBox').prop('value', '');
+			} else {
+				alert('that item is not here');
+			}
 		}
 
 		function useItemOnInteractive(item, interactive){
