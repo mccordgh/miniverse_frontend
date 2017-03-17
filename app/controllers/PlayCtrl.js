@@ -1,63 +1,54 @@
 'use strict';
 app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 
-	$('#userInputBox').prop( "disabled", true );
-
+	// Setup helper variables for later use
 	let room = 0;
 	let validExits = [];
 	let isLoaded = gameFactory.getIsLoaded();
 
-	$scope.isGameOver = gameFactory.getIsGameOver();
+	//Get console Element
+	let adventureConsole = $('#adventureConsole');
+
+	// Reset user input text box
 	$scope.userInput = "";
+	$scope.lastAction = "You enter a room.";
 
-	if (!isLoaded){
-		apiFactory.getAdventure(gameFactory.getChosenAdventure())
-		.then((data) => {
-			gameFactory.setCurrentAdventure(data);
+	// Check if adventure has been ended
+	$scope.isGameOver = gameFactory.getIsGameOver();
 
-			room = gameFactory.getCurrentRoom();
-			validExits = gameFactory.getExits();
+	//Get all the info for the Adventure and current room of the Adventure
+	room = gameFactory.getCurrentRoom();
+	validExits = gameFactory.getExits();
+	$scope.gameObject = {
+		title: gameFactory.getCurrentAdventureName(),
+		roomText: gameFactory.getCurrentRoomText(),
+		inventory: gameFactory.getInventory(),
+		roomItem: gameFactory.getCurrentItem(),
+		roomInteractive: gameFactory.getCurrentInteractive(),
+		exits: validExits.join(", ")
+	};
 
+	$('#userInputBox').focus();
 
-			$scope.gameObject = {
-				title: gameFactory.getCurrentAdventureName(),
-				roomText: gameFactory.getCurrentRoomText(),
-				inventory: gameFactory.getInventory(),
-				roomItem: gameFactory.getCurrentItem(),
-				roomInteractive: gameFactory.getCurrentInteractive(),
-				exits: validExits.join(", ")
-			};
+	//Handles the input of commands by the user
+	$scope.handleUserInput = function(event) {
+		if (event.charCode === 13) {
+			// Get first word from user input aka the command (MOVE, TAKE, USE)
+			let args = $scope.userInput.toLowerCase().split(" ");
+			$('#userInputBox').prop('value', '');
 
-			$scope.$apply();
-			$('#userInputBox').prop( "disabled", false );
-			$('#userInputBox').focus();
-			gameFactory.setIsLoaded(true);
-		});
-
-	} else {
-
-		room = gameFactory.getCurrentRoom();
-		validExits = gameFactory.getExits();
-
-
-		$scope.gameObject = {
-			title: gameFactory.getCurrentAdventureName(),
-			roomText: gameFactory.getCurrentRoomText(),
-			inventory: gameFactory.getInventory(),
-			roomItem: gameFactory.getCurrentItem(),
-			roomInteractive: gameFactory.getCurrentInteractive(),
-			exits: validExits.join(", ")
-		};
-
-		$('#userInputBox').prop( "disabled", false );
-		$('#userInputBox').focus();
-
-	}
-
-		$scope.handleUserInput = function(event) {
-			if (event.charCode === 13) {
-				let args = $scope.userInput.toLowerCase().split(" ");
-				// Get first word from user input aka the command (MOVE, TAKE, USE)
+			// If the length is one, they are most likely trying to move by typing 'e, n, s, w'
+			if (args.length === 1){
+				
+				// If they input 'n, e, s, w', then move in that direction
+				if (args[0] === 'n' || args[0] === 'e' || args[0] === 's' || args[0] === 'w')
+					movePlayer(args[0]);
+				else
+					// If not, give an error
+					alertPlayer("DID NOT UNDERSTAND THAT COMMAND. PLEASE READ COMMANDS LIST BELOW.");
+			
+			} else {
+				// compare the first argument from the user commands and call appropriate function
 				switch (args[0]) {
 					case 'move':
 						movePlayer(args[1]);
@@ -72,79 +63,86 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 						useItemOnInteractive(item, interactive);
 						break;
 					default:
-						alert("DID NOT UNDERSTAND THAT COMMAND. PLEASE READ COMMANDS LIST ABOVE TEXT INPUT.");
+						alertPlayer("DID NOT UNDERSTAND THAT COMMAND. PLEASE READ COMMANDS LIST BELOW.");
 				}
 			}
-		};
+		}
+	};
 
-		function movePlayer(direction){
-			let dir = direction.charAt(0);
-			let directionToMove = "";
+	// This function is responsible for moving the player from room to room
+	function movePlayer(direction){
+		let dir = direction.charAt(0);
+		let directionToMove = "";
 
-			for (let i=0; i < validExits.length; i++){
-				if (validExits[i].charAt(0).toLowerCase() === dir || validExits[i].toLowerCase() === direction)
-					directionToMove = dir;
-			}
-
-			if (directionToMove){
-				switch (dir){
-					case 'n':
-						gameFactory.setCurrentRoom(room - 2);
-						break;
-					case 'e':
-						gameFactory.setCurrentRoom(room + 1);
-						break;
-					case 's':
-						gameFactory.setCurrentRoom(room + 2);
-						break;
-					case 'w':
-						gameFactory.setCurrentRoom(room - 1);
-						break;
-				}
-
-				$route.reload();
-
-			} else {
-				alert("THAT IS NOT A VALID DIRECTION TO MOVE. TRY 'MOVE E' OR 'MOVE WEST'");
-			}
+		for (let i=0; i < validExits.length; i++){
+			if (validExits[i].charAt(0).toLowerCase() === dir || validExits[i].toLowerCase() === direction)
+				directionToMove = dir;
 		}
 
-		function takeItem(item){
-			if (gameFactory.getItemByName(item)){
-				gameFactory.addToInventory(item);
-				$scope.gameObject.inventory = gameFactory.getInventory();
-				$scope.gameObject.roomItem = gameFactory.getCurrentItem();
-				$('#userInputBox').prop('value', '');
-				alert("YOU RECEIVED THE " + item);
-			} else {
-				alert('THAT ITEM IS NOT HERE. YOU MAY NEED AN ITEM TO INTERACT WITH SOMETHING.');
+		if (directionToMove){
+			switch (dir){
+				case 'n':
+					gameFactory.setCurrentRoom(room - 2);
+					break;
+				case 'e':
+					gameFactory.setCurrentRoom(room + 1);
+					break;
+				case 's':
+					gameFactory.setCurrentRoom(room + 2);
+					break;
+				case 'w':
+					gameFactory.setCurrentRoom(room - 1);
+					break;
 			}
+
+			$route.reload();
+
+		} else {
+			alertPlayer(`THAT IS NOT A VALID DIRECTION TO MOVE. TRY ${validExits.join(", ").toLowerCase()}`);
 		}
+	}
 
-		function useItemOnInteractive(item, interactive){
-			let itemObj = gameFactory.getItemFromInventoryByName(item);
-			let interactiveObj = gameFactory.getInteractiveByName(interactive);
-
-			if (itemObj === null || interactiveObj === null || interactiveObj.activator_id !== itemObj.id){
-				alert("INVALID ITEM OR INTERACTIVE.");
-				return;
-			}
-
-			gameFactory.useItemOnInteractive(itemObj, interactiveObj);
+	// Takes an item from the room, and putting it in to the players inventory
+	function takeItem(item){
+		if (gameFactory.getInteractiveByName(item)){
+			alertPlayer(`${item.toUpperCase()} IS AN INTERACTIVE. TRY USING ANOTHER ITEM ON IT.`);
+			return;
+		}
+		if (gameFactory.getItemByName(item)){
+			gameFactory.addToInventory(item);
 			$scope.gameObject.inventory = gameFactory.getInventory();
-			$scope.gameObject.roomInteractive = gameFactory.getCurrentInteractive();
+			$scope.gameObject.roomItem = gameFactory.getCurrentItem();
 			$('#userInputBox').prop('value', '');
-			$scope.isGameOver = gameFactory.getIsGameOver();
+			alertPlayer("YOU RECEIVED THE " + item.toUpperCase());
+		} else {
+			alertPlayer(`A ${item.toUpperCase()} IS NOT HERE.`);
+		}
+	}
+
+	// Function for using an item on an interactive
+	function useItemOnInteractive(item, interactive){
+		let itemObj = gameFactory.getItemFromInventoryByName(item);
+		let interactiveObj = gameFactory.getInteractiveByName(interactive);
+
+		if (itemObj === null || interactiveObj === null || interactiveObj.activator_id !== itemObj.id){
+			alertPlayer("INVALID ITEM OR INTERACTIVE.");
+			return;
 		}
 
+		let itemName = gameFactory.useItemOnInteractive(itemObj, interactiveObj);
+		alertPlayer("YOU RECEIVED THE " + itemName);
 
-		/////////////////////////////////////////////////////////////////
-		///                     TESTING ZONE                          ///
-		///////////////////////////////////////////////////////////////// 
-		
-		// gameFactory.setCurrentRoom(3);
-		// validExits = gameFactory.getExits();
-		// takeItem("DOG BONE");
-		// gameFactory.setCurrentRoom(0);
-		// validExits = gameFactory.getExits();
+		$scope.gameObject.inventory = gameFactory.getInventory();
+		$scope.gameObject.roomInteractive = gameFactory.getCurrentInteractive();
+		$('#userInputBox').prop('value', '');
+		$scope.isGameOver = gameFactory.getIsGameOver();
+	}
+
+	// Function for alerting player of their last action or error in the top right console
+	function alertPlayer(msg){
+		adventureConsole.fadeOut(1);
+		$scope.lastAction = msg;
+		adventureConsole.fadeIn(2000);
+	}
+
 });

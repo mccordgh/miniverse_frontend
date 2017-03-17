@@ -1,9 +1,11 @@
 "use strict";
 
+// apiFactory will handle the necessary API calls needed for app
 app.factory('apiFactory', function apiFactoryFunc($http) {
 
 	let apiFactoryObject = {
 
+		// Returns all the data for a single text adventure
 		getAdventure(pk) {
 			return new Promise(function (resolve, reject){
 				$http({
@@ -17,6 +19,7 @@ app.factory('apiFactory', function apiFactoryFunc($http) {
 	  	});			
 	  },
 
+	  // Returns a list of all text adventures, and associated IDs
 		getAllAdventures(){
 			return new Promise(function (resolve, reject){
 				$http({

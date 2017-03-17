@@ -12,13 +12,23 @@ a {
 	font-size: 1.5em;
 }
 
+h1 {
+	margin: 10px 0;
+}
+
 h2 {
 	margin: 0;
 }
 
 h3 {
 	max-width: 100%;
-	text-align: center;
+}
+
+.adventure-console {
+	display: inline;
+	float: right;
+	font-size: 1.3em;
+	color: orange;
 }
 
 .adventure-container {
@@ -30,7 +40,6 @@ h3 {
 }
 
 .adventure-footer {
-	/*font-size: 1.5em;*/
 	padding: 0;
 	margin: 0;
 	border: solid 5px;
@@ -48,6 +57,13 @@ h3 {
 	margin: 0 auto;
 	height: 30%;
 	width: 95%;
+}
+
+.adventure-footer input:focus {
+	border-bottom: 1px solid yellow;
+	-webkit-box-shadow: 0 1px 0 0 yellow;
+	-moz-box-shadow: 0 1px 0 0 yellow;
+	box-shadow: 0 1px 0 0 yellow;
 }
 
 .adventure-footer li {
@@ -87,8 +103,10 @@ h3 {
 }
 
 .adventure-title {
-	text-align: center;
-	margin: 0 auto 20px;
+	margin:0;
+	margin-bottom: 20px;
+	display: inline;
+	text-align: left;
 }
 
 .col {
@@ -133,9 +151,24 @@ pop {
 	color: yellow;
 }
 
+popG {
+	color: lime;
+}
+
 .row {
 	padding: 0;
 	margin: 0;
+}
+
+.title-bar {
+	text-align: left;
+	margin: 0;
+	padding: 0;
+	padding-right: 10px;
+}
+
+.title-bar li {
+	display: inline;
 }
 
 .wrapper {

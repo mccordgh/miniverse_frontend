@@ -2,7 +2,15 @@
 <div ng-show="isGameOver">
 <h3>Congratulations you have conquered</h3>
 </div>
-<h3 class="adventure-title">{{gameObject.title}}</h3>
+
+<ul class="title-bar">
+	<li>
+		<h3 class="adventure-title">{{gameObject.title}}</h3>
+	</li>
+	<li>
+		<span id="aventureConsole" class="adventure-console">{{lastAction}}</span>
+	</li>
+</ul>
 
 <div class="container adventure-container" ng-hide="isGameOver">
 	
@@ -11,7 +19,7 @@
 		<div class="col l9 m9 adventure-text">
 			<p>{{gameObject.roomText}}</p>
 			<p ng-if="gameObject.roomItem.name">You see a <pop>{{gameObject.roomItem.name}}</pop>. {{gameObject.roomItem.description}}</p>
-			<p ng-if="gameObject.roomInteractive.name">You can interact with a <pop>{{gameObject.roomInteractive.name}}</pop>.. {{gameObject.roomInteractive.description}}</p>
+			<p ng-if="gameObject.roomInteractive.name">You can interact with a <popG>{{gameObject.roomInteractive.name}}</popG>.. {{gameObject.roomInteractive.description}}</p>
 			<p>You see exits to the: <pop>{{gameObject.exits}}</pop>.</p>
 		</div>
 
