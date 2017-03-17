@@ -11,7 +11,7 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 	$scope.userInput = "";
 
 	if (!isLoaded){
-		apiFactory.getAdventure(3)
+		apiFactory.getAdventure(gameFactory.getChosenAdventure())
 		.then((data) => {
 			gameFactory.setCurrentAdventure(data);
 
@@ -72,7 +72,7 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 						useItemOnInteractive(item, interactive);
 						break;
 					default:
-						alert("did not understand command");
+						alert("DID NOT UNDERSTAND THAT COMMAND. PLEASE READ COMMANDS LIST ABOVE TEXT INPUT.");
 				}
 			}
 		};
@@ -105,7 +105,7 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 				$route.reload();
 
 			} else {
-				alert("not a valid direction to move.");
+				alert("THAT IS NOT A VALID DIRECTION TO MOVE. TRY 'MOVE E' OR 'MOVE WEST'");
 			}
 		}
 
@@ -115,8 +115,9 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 				$scope.gameObject.inventory = gameFactory.getInventory();
 				$scope.gameObject.roomItem = gameFactory.getCurrentItem();
 				$('#userInputBox').prop('value', '');
+				alert("YOU RECEIVED THE " + item);
 			} else {
-				alert('that item is not here');
+				alert('THAT ITEM IS NOT HERE. YOU MAY NEED AN ITEM TO INTERACT WITH SOMETHING.');
 			}
 		}
 
@@ -125,7 +126,7 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 			let interactiveObj = gameFactory.getInteractiveByName(interactive);
 
 			if (itemObj === null || interactiveObj === null || interactiveObj.activator_id !== itemObj.id){
-				alert("Invalid item or interactive");
+				alert("INVALID ITEM OR INTERACTIVE.");
 				return;
 			}
 

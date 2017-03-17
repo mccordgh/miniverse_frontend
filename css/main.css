@@ -1,9 +1,15 @@
 body, html {
 	height: 100%;
-	background-color: #1A2632;
-	color: #00AB9A;
-	font-size: 1em;
+	background-color: #222;
+	color: #eee;
+	font-size: 1.25em;
 	text-transform: uppercase;
+	text-align: center;
+	font-family: 'VT323', monospace;
+}
+
+a {
+	font-size: 1.5em;
 }
 
 h2 {
@@ -11,29 +17,33 @@ h2 {
 }
 
 h3 {
-	font-size: 1.5em;
 	max-width: 100%;
 	text-align: center;
 }
 
 .adventure-container {
-
+	min-width: 1200px;
 	padding: 0;
-	margin: 0;
+	margin: 0 auto;
 	height: 550px;
 	width: 100%;
 }
 
 .adventure-footer {
+	/*font-size: 1.5em;*/
 	padding: 0;
 	margin: 0;
 	border: solid 5px;
-	height: 20%;
+	height: 25%;
 }
 
 .adventure-footer input {
-	height: 49%;
-	border: solid 5px;
+	border-bottom: 1px solid yellow;
+	-webkit-box-shadow: 0 1px 0 0 yellow;
+	-moz-box-shadow: 0 1px 0 0 yellow;
+	box-shadow: 0 1px 0 0 yellow;
+	font-size: 1.5em !important;
+	border: 0;
 	padding: 0 15px;
 	margin: 0 auto;
 	height: 30%;
@@ -49,6 +59,7 @@ h3 {
 	text-align: center;
 	height: 40%;
 	padding: 0;
+	padding-top: 10px;
 	margin: 0;
 }
 
@@ -57,6 +68,10 @@ h3 {
 	margin: 0;
 	height: 80%;
 	border: solid 5px;
+}
+
+.adventure-inventory li {
+	font-size: 1.5em;
 }
 
 .adventure-row {
@@ -91,13 +106,17 @@ h3 {
 }
 
 .navbar {
-	background-color: #1A2632;
-	color: #00AB9A;
-	border: 2px solid #00AB9A;
+	background-color: #222;
+	color: #eee;
+	border: 2px solid #eee;
+}
+
+.navbar-nav h3 {
+	margin: 0;
 }
 
 .navbar-nav>li>a {
-	color: #00AB9A;
+	color: #eee;
 }
 
 .navbar .navbar-collapse {

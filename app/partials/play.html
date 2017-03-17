@@ -1,4 +1,8 @@
-<h2 class="adventure-title">{{gameObject.title}}</h2>
+
+<div ng-show="isGameOver">
+<h3>Congratulations you have conquered</h3>
+</div>
+<h3 class="adventure-title">{{gameObject.title}}</h3>
 
 <div class="container adventure-container" ng-hide="isGameOver">
 	
@@ -17,10 +21,14 @@
 				<li ng-repeat="item in gameObject.inventory">
 					<pop>{{item.name}}</pop>
 				</li>
+			</oul>
 		</div>
 
 		<div class="adventure-footer col l12 m12">
 			<ul>
+				<li>
+					<pop>COMMANDS:</pop>&nbsp;
+				</li>
 				<li> 
 					<pop>MOVE</pop> (<pop>N</pop>)orth, (<pop>S</pop>)outh, (<pop>E</pop>)ast, (<pop>W</pop>)est |
 				</li>
@@ -39,6 +47,5 @@
 </div>
 
 <div ng-show="isGameOver">
-<h2>Congratulations you win</h2>
 <p><a href="/#/home">Return to Home</a></p>
 </div>

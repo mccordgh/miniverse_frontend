@@ -7,11 +7,12 @@ app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 	let inventory = [];
 	let isGameOver = false;
 	let isLoaded = false;
+	let chosenAdventure = 0;
 
 	let gameFactoryObject = {
 
-		endAdventure(){
-			// this.setIsGameOver(true);
+		getChosenAdventure(){
+			return chosenAdventure;
 		},
 
 		getCurrentAdventure() {
@@ -145,6 +146,10 @@ app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 			inventory.push(newItem);
 		},
 
+		setChosenAdventure(newAdventure){
+			chosenAdventure = newAdventure;
+		},
+
 		setCurrentAdventure(newAdventure) {
 			currentAdventure = newAdventure;
 		},
@@ -170,17 +175,17 @@ app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 			
 			if (interactive.action === "end"){
 				this.setIsGameOver(true);
-				// this.endAdventure();
 				return;
 			}
 
 			for (let i=0; i < currentAdventure.items.length; i++){
 				if (currentAdventure.items[i].id === interactive.reward_id)
+					alert("YOU RECEIVED THE " + currentAdventure.items[i].name);
 					newItem = currentAdventure.items[i];
 			}
 			
 
-			inventory.splice(item.id - 1, 1);
+			inventory.splice(0, 1);
 			currentAdventure.interactives.splice(interactive.id - 1, 1);
 
 			this.addToInventory(newItem.name);

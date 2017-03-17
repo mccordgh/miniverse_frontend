@@ -1,25 +1,9 @@
 <nav class="navbar navbar-default" ng-controller="NavCtrl">
   <div class="container-fluid">
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-left" ng-repeat="item in navItems">
+    <div class="navbar">
+      <ul class="nav navbar-nav">
         <li>
-          <a href="{{item.url}}" class="navlink">{{item.name}}</a>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-center">
-        <li>
-          <h2> << </h2>
-        </li>
-        <li>
-          <a href="/#/home"><h3> Miniverse </h3></a>
-        </li>
-        <li>
-          <h2> >> </h2>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right navlink" ng-repeat="item in signOut">
-        <li>
-          <a href="{{item.url}}">{{item.name}}</a>
+          <a href="/#/home"><h3><< Miniverse >></h3></a>
         </li>
       </ul>
     </div>

@@ -21,7 +21,7 @@ app.config(($locationProvider, $routeProvider, $httpProvider) => {
       templateUrl: 'app/partials/play.html',
       controller: 'PlayCtrl'
     })
-    .otherwise('/');
+    .otherwise('/home');
 
   $locationProvider.hashPrefix('');
 

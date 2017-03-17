@@ -12,7 +12,6 @@ app.factory('apiFactory', function apiFactoryFunc($http) {
 				}).then(function success(response) {
 						resolve(response.data);
 	  			}, function error(response) {
-						console.log(response.data.detail);
 						reject(response.data.detail);
 	  		});
 	  	});			
@@ -26,7 +25,6 @@ app.factory('apiFactory', function apiFactoryFunc($http) {
 				}).then(function success(response) {
 						resolve(response.data);
 	  			}, function error(response) {
-						console.log(response.data.detail);
 						reject(response.data.detail);
 	  		});
 	  	});			
