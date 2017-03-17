@@ -4,5 +4,3 @@
 *.sublime-grunt.cache
 *.sass-cache
 *.css.map
-lib/node_modules
-lib/bower_components
