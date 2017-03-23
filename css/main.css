@@ -28,7 +28,6 @@ h3 {
 	display: inline;
 	float: right;
 	font-size: 1.3em;
-	color: orange;
 	text-align: center;
 }
 
@@ -89,6 +88,10 @@ h3 {
 
 .adventure-inventory li {
 	font-size: 1.5em;
+}
+
+.adventure-list li {
+	display: inline-block;
 }
 
 .adventure-row {

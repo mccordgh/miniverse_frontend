@@ -1,7 +1,10 @@
-<h1>HOME</h1>
+<h2>Welcome to the Lobby!</h2>
 <h2>Choose an Adventure:</h2>
-<ul ng-repeat="adventure in adventures">
-	<li>
-		<a href="/#/adventure/{{adventure.id}}">{{adventure.title}}</a>
-	</li>
-</ul>
+<br />
+<div class="container">
+	<ul class="row adventure-list">
+		<li ng-repeat="adventure in adventures" class="col l6 m12">
+			<a href="/#/adventure/{{adventure.id}}">{{$index + 1}}. {{adventure.title}}</a>
+		</li>
+	</ul>
+</div>

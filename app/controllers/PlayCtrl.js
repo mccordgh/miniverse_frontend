@@ -5,19 +5,22 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 	let room = 0;
 	let validExits = [];
 	let isLoaded = gameFactory.getIsLoaded();
+	let consoleFlashCounter = 0;
+	let consoleFlashInterval = "";
 
 	//Get console Element
 	let adventureConsole = $('#adventureConsole');
+	adventureConsole.css('color', 'orange');
 
 	// Reset user input text box
 	$scope.userInput = "";
-	$scope.lastAction = "You enter a room.";
 
 	// Check if adventure has been ended
 	$scope.isGameOver = gameFactory.getIsGameOver();
 
 	//Get all the info for the Adventure and current room of the Adventure
 	room = gameFactory.getCurrentRoom();
+	alertPlayer(`You moved in to room #${room + 1}`);
 	validExits = gameFactory.getExits();
 	$scope.gameObject = {
 		title: gameFactory.getCurrentAdventureName(),
@@ -79,6 +82,7 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 				directionToMove = dir;
 		}
 
+		// move to room specified by direction given
 		if (directionToMove){
 			switch (dir){
 				case 'n':
@@ -96,7 +100,7 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 			}
 
 			$route.reload();
-
+				
 		} else {
 			alertPlayer(`THAT IS NOT A VALID DIRECTION TO MOVE. TRY ${validExits.join(", ").toLowerCase()}`);
 		}
@@ -140,9 +144,30 @@ app.controller('PlayCtrl', function($scope, $route, gameFactory, apiFactory) {
 
 	// Function for alerting player of their last action or error in the top right console
 	function alertPlayer(msg){
-		adventureConsole.fadeOut(1);
 		$scope.lastAction = msg;
-		adventureConsole.fadeIn(2000);
+		consoleFlashInterval = setInterval(consoleFlash, 30);
+	}
+
+	// Flash the console to white then fade it back down to orange
+	function consoleFlash() {
+		consoleFlashCounter++;
+
+		if (consoleFlashCounter % 2 === 0){
+			adventureConsole.css(
+				`color`, 
+				`orange`
+				);
+		} else {
+			adventureConsole.css(
+				`color`, 
+				`white`
+				);
+		}
+
+		if (consoleFlashCounter === 10) {
+			consoleFlashCounter = 0;
+			clearInterval(consoleFlashInterval);
+		}
 	}
 
 });

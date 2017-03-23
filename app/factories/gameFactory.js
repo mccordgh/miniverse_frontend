@@ -11,7 +11,19 @@ app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 	let chosenAdventure = 0;
 
 	let gameFactoryObject = {
-
+		// adds item to user inventory
+		addToInventory(item) {
+			item = this.getItemByName(item);
+			let itemID = item.id;
+			let newItem = {};
+			for (let i=0; i < currentAdventure.items.length; i++){
+				if (currentAdventure.items[i].id === itemID) {
+					newItem = currentAdventure.items[i];
+					currentAdventure.items.splice(i, 1);
+				}
+			}
+			inventory.push(newItem);
+		},
 		// returns adventure chosen from home list
 		getChosenAdventure(){
 			return chosenAdventure;
@@ -23,14 +35,6 @@ app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 		// returns the title of the current adventure
 		getCurrentAdventureName() {
 			return currentAdventure.adventure[0].title;
-		},
-		// returns the current room the user is in
-		getCurrentRoom() {
-			return currentRoom;
-		},
-		// returns the current room description text
-		getCurrentRoomText() {
-			return currentAdventure.rooms[currentRoom].description;
 		},
 		// returns the current item in a room, if any
 		getCurrentItem() {
@@ -65,6 +69,14 @@ app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 			}
 
 			return interactiveObj;
+		},
+		// returns the current room the user is in
+		getCurrentRoom() {
+			return currentRoom;
+		},
+		// returns the current room description text
+		getCurrentRoomText() {
+			return currentAdventure.rooms[currentRoom].description;
 		},
 		// returns available exits for the current room
 		getExits() {
@@ -118,7 +130,10 @@ app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 			
 			return null;
 		},
-
+		// returns isLoaded flag 
+		getIsLoaded() {
+			return isLoaded;
+		},
 		// returns an item from the user inventory by name search
 		getItemFromInventoryByName(name){
 			name = name.toLowerCase();
@@ -129,23 +144,6 @@ app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 				}
 			
 			return null;
-		},
-		// returns isLoaded flag 
-		getIsLoaded() {
-			return isLoaded;
-		},
-		// adds item to user inventory
-		addToInventory(item) {
-			item = this.getItemByName(item);
-			let itemID = item.id;
-			let newItem = {};
-			for (let i=0; i < currentAdventure.items.length; i++){
-				if (currentAdventure.items[i].id === itemID) {
-					newItem = currentAdventure.items[i];
-					currentAdventure.items.splice(i, 1);
-				}
-			}
-			inventory.push(newItem);
 		},
 		// set the chosen adventure
 		setChosenAdventure(newAdventure){
@@ -195,7 +193,6 @@ app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 			return itemName;
 
 		}
-
 	};
 
 	return gameFactoryObject;
