@@ -1,3 +1,3 @@
-# [Miniverse Adventures](https://mccordgh.github.io/miniverse_frontend)
+# Miniverse Adventures Angular Front End
 
 ![alt text](http://i.imgur.com/buyuMnx.gif "Miniverse Adventures UI")
