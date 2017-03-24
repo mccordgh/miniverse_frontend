@@ -176,6 +176,7 @@ app.factory('gameFactory', function gameFactoryFunc($http, $location) {
 			if (interactive.action === "end"){
 				this.setIsGameOver(true);
 				inventory = [];
+				this.setCurrentRoom(0);
 				return "WIN, DUDE (or dudette)!";
 			}
 
